@@ -68,7 +68,7 @@ public class Acitvity_Splash extends Activity {
     private void animateEnd() {
         Intent intent;
 
-        if (isShowWelcome) {
+        if (!isShowWelcome) {
             intent = new Intent(this, MainActivity.class);
             startActivity(intent);
             finish();
