@@ -1,0 +1,56 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!-- 底部导航栏的样式 -->
+    <style name="bottom_navi_item">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:layout_weight">1.0</item>
+        <item name="android:paddingTop">6.0dp</item>
+        <item name="android:background">@drawable/bg_tabbar</item>
+    </style>
+
+    <style name="bottom_navi_item_img">
+        <item name="android:layout_width">@dimen/dimen_60_dip</item>
+        <item name="android:layout_height">@dimen/dimen_60_dip</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="bottom_navi_item_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <!-- <item name="android:textSize">@dimen/bottom_button_text_size</item> -->
+        <item name="android:textSize">@dimen/dimen_24_dip</item>
+        <item name="android:textColor">@drawable/selector_bottom_button_textcolor</item>
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+    <!-- END -->
+
+    <style name="editetext_style">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColorHint">@color/text_hint_color</item>
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:paddingLeft">10.0dip</item>
+        <item name="android:paddingRight">10.0dip</item>
+        <item name="android:layout_height">48.0dip</item>
+    </style>
+</resources>
