@@ -3,6 +3,8 @@ package com.zgp.application;
 import android.app.Application;
 import android.util.Log;
 
+import com.zgp.utils.MyLogger;
+
 /**
  * Created by 61720 on 2016/4/13.
  */
@@ -14,7 +16,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Log.e("MyApplication", "程序运行到这里");
+        MyLogger.log("程序运行到这里 MyApplication onCreate");
     }
 
     public MyApplication getApplication() {

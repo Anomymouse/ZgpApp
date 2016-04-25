@@ -3,22 +3,32 @@ package com.zgp.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zgp.adapter.Adapter_GvGoods;
+import com.zgp.application.UrlPath;
 import com.zgp.bean.Bean_Banner;
 import com.zgp.bean.Bean_Goods;
-import com.zgp.utils.Util_System;
+import com.zgp.http.HttpController;
+import com.zgp.http.IRequestCallBack;
+import com.zgp.utils.MyLogger;
+import com.zgp.view.ToastView;
 import com.zgp.zgpapp.R;
+
+import net.tsz.afinal.FinalHttp;
+import net.tsz.afinal.http.AjaxCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +43,13 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     private GridView gridView;
     private Adapter_GvGoods adapterGvGoods;
 
+    private FinalHttp finalHttp;
+
+    /**
+     * 商品相关
+     */
+    private List<Bean_Goods> goodsList;
+
     /**
      * 图片加载相关
      */
@@ -42,7 +59,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     /**
      * 广告相关
      */
-    private List<Bean_Banner> mNewsList;
+    private List<Bean_Banner> bannerList;
     private ViewPager vp_banner;// 广告banner
     private LinearLayout ll_dot;// 广告右下角 点
     private TextView tv_newsTitle;// 广告标题
@@ -54,6 +71,8 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        finalHttp = new FinalHttp();
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
         bannerOptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.logo) // 设置图片下载期间显示的图片
@@ -85,52 +104,45 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     }
 
     public void initData() {
-        List<Bean_Goods> list = new ArrayList<>();
-        Bean_Goods beanGoods1 = new Bean_Goods();
-        beanGoods1.setGoods_praise("1");
-        beanGoods1.setGoods_img("1");
-        beanGoods1.setGoods_title("1");
-        beanGoods1.setGoods_title_more("1");
-        beanGoods1.setGoods_update_time("1");
-        Bean_Goods beanGoods2 = new Bean_Goods();
-        beanGoods2.setGoods_praise("2");
-        beanGoods2.setGoods_img("2");
-        beanGoods2.setGoods_title("2");
-        beanGoods2.setGoods_title_more("2");
-        beanGoods2.setGoods_update_time("2");
-        Bean_Goods beanGoods3 = new Bean_Goods();
-        beanGoods3.setGoods_praise("3");
-        beanGoods3.setGoods_img("3");
-        beanGoods3.setGoods_title("3");
-        beanGoods3.setGoods_title_more("3");
-        beanGoods3.setGoods_update_time("3");
-        list.add(beanGoods1);
-        list.add(beanGoods2);
-        list.add(beanGoods3);
-        adapterGvGoods = new Adapter_GvGoods(getActivity(), list);
-        gridView.setAdapter(adapterGvGoods);
+        //1 获取Banner列表
+        HttpController.post(UrlPath.GetBannerList, null, new IRequestCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                bannerList = JSON.parseArray(result, Bean_Banner.class);
+                if (bannerList != null && bannerList.size() > 0) {
+                } else {
+                    bannerList = new ArrayList<Bean_Banner>();
+                }
 
-        mNewsList = new ArrayList<>();
-        Bean_Banner banner1 = new Bean_Banner();
-        banner1.setId(1);
-        banner1.setContent("1");
-        banner1.setImgUrl("1");
-        banner1.setTitle("1");
-        Bean_Banner banner2 = new Bean_Banner();
-        banner2.setId(2);
-        banner2.setContent("2");
-        banner2.setImgUrl("2");
-        banner2.setTitle("2");
-        Bean_Banner banner3 = new Bean_Banner();
-        banner3.setId(3);
-        banner3.setContent("3");
-        banner3.setImgUrl("3");
-        banner3.setTitle("3");
-        mNewsList.add(banner1);
-        mNewsList.add(banner2);
-        mNewsList.add(banner3);
+                MyLogger.log("bannerList.size：" + bannerList.size());
+            }
 
+            @Override
+            public void onFailure(String failure) {
+                Toast(failure);
+            }
+        });
 
+        //2 获取水果商品列表
+        HttpController.post(UrlPath.GetGoodsList, null, new IRequestCallBack() {
+            @Override
+            public void onSuccess(String result) {
+                goodsList = JSON.parseArray(result, Bean_Goods.class);
+                if (goodsList != null && goodsList.size() > 0) {
+                    adapterGvGoods = new Adapter_GvGoods(getActivity(), goodsList);
+                } else {
+                    goodsList = new ArrayList<Bean_Goods>();
+                }
+                gridView.setAdapter(adapterGvGoods);
+
+                MyLogger.log("goodsList.size：" + goodsList.size());
+            }
+
+            @Override
+            public void onFailure(String failure) {
+                Toast(failure);
+            }
+        });
     }
 
     @Override
@@ -138,4 +150,9 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
 
     }
 
+    private void Toast(String str) {
+        ToastView toastView = new ToastView(getActivity(), str);
+        toastView.setGravity(Gravity.CENTER, 0, 0);
+        toastView.show();
+    }
 }

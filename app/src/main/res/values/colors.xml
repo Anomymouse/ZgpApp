@@ -15,5 +15,6 @@
     <color name="text_hint_color">#ff929292</color>
     <color name="gray_me_white">#ffa3a3a3</color>
     <color name="bg_color">#00DDB1</color>
+    <color name="gray_transparent_75">#BF111419</color>
 
 </resources>

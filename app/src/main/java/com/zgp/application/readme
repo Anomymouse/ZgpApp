@@ -1,0 +1,48 @@
+AjaxParams params = new AjaxParams();
+params.put("mobile", phone);
+params.put("type", "Type_Login");
+
+finalHttp.post(ZUrlPath.SmsGetCode, params, new AjaxCallBack<String>() {
+    @Override
+    public void onSuccess(String str) {
+        super.onSuccess(str);
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
+        bt_code.setEnabled(true);
+        try {
+            JSONObject json = JSONObject.parseObject(str);
+
+            if (json.getJSONObject("status").getString("code").equals("success")) {
+                Toast(json.getJSONObject("status").getString("desc"));
+                //当用户重新获取验证码的时候，重新new 服务，并且重置时间
+                if (scheduledExecutorService == null) {
+                    scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+                    seconds = 60;//重新设置60秒
+                }
+                scheduledExecutorService.scheduleAtFixedRate(new UpdateTask(), 1, 1, TimeUnit.SECONDS);
+            } else if (json.getJSONObject("status").getString("code").equals("failure")) {
+                Toast(json.getJSONObject("status").getString("desc"));
+            } else {
+                Toast("操作失败！");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            //功能异常或应用奔溃时，捕获异常，并给用户友好提示
+            Utils_DialogManager.showServiceError(Activity_Login.this);
+        }
+    }
+
+    @Override
+    public void onFailure(Throwable t, int errorNo, String strMsg) {
+        super.onFailure(t, errorNo, strMsg);
+        bt_code.setEnabled(true);
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+        }
+        Toast(getResources().getString(R.string.net_error));
+        // Toast.makeText(Activity_Login.this, "获取验证码失败，请检查网络 errorCode:" + errorNo + "  strMsg:" + strMsg, Toast.LENGTH_SHORT).show();
+    }
+});
