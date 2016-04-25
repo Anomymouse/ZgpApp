@@ -10,7 +10,7 @@
         android:id="@+id/banner_wrapper"
         layout="@layout/banner_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_496_dip" />
+        android:layout_height="@dimen/dimen_500_dip" />
 
     <LinearLayout
         android:layout_width="match_parent"

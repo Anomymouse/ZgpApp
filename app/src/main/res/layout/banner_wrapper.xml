@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_50_dip"
+        android:layout_height="35dip"
         android:layout_alignParentBottom="true"
         android:background="@color/gray_transparent_35"
         android:paddingLeft="10dp"
