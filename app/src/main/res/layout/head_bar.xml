@@ -10,39 +10,36 @@
         android:layout_height="match_parent">
 
         <ImageView
+            android:id="@+id/head_bar_iv_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/head_bar_iv_left"
-            android:layout_marginTop="@dimen/dimen_20_dip"
-            android:src="@drawable/head_bar_left"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp" />
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="@dimen/dimen_20_dip"
+            android:src="@drawable/head_bar_left" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/head_bar_iv_right"
-            android:src="@drawable/head_bar_right"
-            android:layout_alignTop="@+id/head_bar_iv_left"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="11dp"
-            android:layout_marginEnd="11dp" />
-
-        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/head_bar_iv_left"
+            android:layout_marginEnd="11dp"
+            android:layout_marginRight="11dp"
+            android:src="@drawable/head_bar_right" />
+
+        <ImageView
             android:id="@+id/imageView3"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/logo_top"/>
+            android:layout_centerVertical="true"
+            android:src="@drawable/logo_top" />
     </RelativeLayout>
-
-
-
 
 
 </RelativeLayout>
