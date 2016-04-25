@@ -111,9 +111,9 @@ public class Adapter_GvGoods extends BaseAdapter {
 
             Bean_Goods goodsRight = listTotle.get(position).get(1);
             if (TextUtils.isEmpty(goodsRight.getGoods_img())) {
-                imageLoader.displayImage(goodsRight.getGoods_img(), holder.rigth_goods_img, options);
+                imageLoader.displayImage(UrlPath.IMAGE_URL + goodsRight.getGoods_img(), holder.rigth_goods_img, options);
             } else {
-                imageLoader.displayImage(goodsRight.getGoods_img(), holder.rigth_goods_img, options);
+                imageLoader.displayImage(UrlPath.IMAGE_URL + goodsRight.getGoods_img(), holder.rigth_goods_img, options);
             }
             holder.rigth_goods_title.setText(goodsRight.getGoods_title());
             holder.rigth_goods_title_more.setText(goodsRight.getGoods_title_more());
