@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -32,7 +31,6 @@ import com.zgp.zgpapp.R;
 
 import net.tsz.afinal.FinalHttp;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -53,7 +51,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     /**
      * 商品相关
      */
-    private List<Bean_Goods> goodsList;
+    private List<List<Bean_Goods>> goodsTotleList;
 
     /**
      * 图片加载相关
@@ -64,7 +62,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     /**
      * 广告相关
      */
-    private List<Bean_Banner> mNewsList;
+    private List<Bean_Banner> bannerList;
     private ViewPager vp_banner;// 广告banner
     private LinearLayout ll_dot;// 广告右下角 点
     private TextView tv_newsTitle;// 广告标题
@@ -130,14 +128,14 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
         HttpController.post(UrlPath.GetBannerList, null, new IRequestCallBack() {
             @Override
             public void onSuccess(String result) {
-                mNewsList = JSON.parseArray(result, Bean_Banner.class);
-                if (mNewsList != null && mNewsList.size() > 0) {
+                bannerList = JSON.parseArray(result, Bean_Banner.class);
+                if (bannerList != null && bannerList.size() > 0) {
                     initViewPager();
                 } else {
-                    mNewsList = new ArrayList<Bean_Banner>();
+                    bannerList = new ArrayList<Bean_Banner>();
                 }
 
-                MyLogger.log("mNewsList.size：" + mNewsList.size());
+                MyLogger.log("bannerList.size：" + bannerList.size());
             }
 
             @Override
@@ -150,14 +148,34 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
         HttpController.post(UrlPath.GetGoodsList, null, new IRequestCallBack() {
             @Override
             public void onSuccess(String result) {
-                goodsList = JSON.parseArray(result, Bean_Goods.class);
+                List<Bean_Goods> goodsList = JSON.parseArray(result, Bean_Goods.class);
                 if (goodsList != null && goodsList.size() > 0) {
-                    adapterGvGoods = new Adapter_GvGoods(getActivity(), goodsList);
+
+                    List<Bean_Goods> itemList = new ArrayList<Bean_Goods>();
+
+                    goodsTotleList = new ArrayList<List<Bean_Goods>>();
+
+                    for (int i = 1; i < goodsList.size() + 1; i++) {
+                        if (i % 2 == 0) {
+                            itemList.add(goodsList.get(i - 1));
+                            goodsTotleList.add(itemList);
+                        } else {
+                            itemList = new ArrayList<Bean_Goods>();
+                            itemList.add(goodsList.get(i - 1));
+
+                            if (i == goodsList.size()) {
+                                goodsTotleList.add(itemList);
+                            }
+                        }
+                    }
+
+                    adapterGvGoods = new Adapter_GvGoods(getActivity(), goodsTotleList);
                 } else {
-                    goodsList = new ArrayList<Bean_Goods>();
+                    goodsTotleList = new ArrayList<List<Bean_Goods>>();
                 }
                 listView.setAdapter(adapterGvGoods);
 
+                MyLogger.log("asddfadf:" + JSON.toJSONString(goodsTotleList));
                 MyLogger.log("goodsList.size：" + goodsList.size());
             }
 
@@ -181,7 +199,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
 
     private void initViewPager() {
         float density = Util_System.getDensity(getActivity());
-        int length = mNewsList.size();
+        int length = bannerList.size();
 
         for (int i = 0; i < length; i++) {
             ImageView view = (ImageView) inflater.inflate(R.layout.banner_item, null);
@@ -190,14 +208,14 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
 
                 @Override
                 public void onClick(View v) {
-                    Toast("点击了：" + mNewsList.get(index).getId());
+                    Toast("点击了：" + bannerList.get(index).getId());
                 }
             });
             mViewList.add(view);
         }
 
         // 设置点
-        for (int i = 0; i < mNewsList.size(); i++) {
+        for (int i = 0; i < bannerList.size(); i++) {
             ImageView imageView = new ImageView(getActivity());
             imageView.setLayoutParams(new LinearLayout.LayoutParams((int) (10 * density), (int) (10 * density)));
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(imageView.getLayoutParams());
@@ -212,9 +230,9 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
             ll_dot.addView(imageView);
         }
         //设置文字
-        for (int i = 0; i < mNewsList.size(); i++) {
+        for (int i = 0; i < bannerList.size(); i++) {
             if (i == 0) {
-                tv_newsTitle.setText(mNewsList.get(0).getTitle());
+                tv_newsTitle.setText(bannerList.get(0).getTitle());
             }
         }
         if (mViewList != null && mViewList.size() > 0) {
@@ -247,8 +265,8 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
                 ((ViewPager) container).addView(mViewList.get(position));
             }
 
-            //MyLogger.log("图片加载：" + UrlPath.IMAGE_URL + mNewsList.get(position).getImgUrl());
-            imageLoader.displayImage(UrlPath.IMAGE_URL + mNewsList.get(position).getImgUrl(), mViewList.get(position), bannerOptions);
+            //MyLogger.log("图片加载：" + UrlPath.IMAGE_URL + bannerList.get(position).getImgUrl());
+            imageLoader.displayImage(UrlPath.IMAGE_URL + bannerList.get(position).getImgUrl(), mViewList.get(position), bannerOptions);
             return mViewList.get(position);
         }
 
@@ -283,7 +301,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
         @Override
         public void onPageSelected(int position) {
             currentItem = position;
-            tv_newsTitle.setText(mNewsList.get(position).getTitle());
+            tv_newsTitle.setText(bannerList.get(position).getTitle());
             setDotImage(position);
         }
     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -22,8 +23,6 @@ import java.util.List;
  */
 public class Adapter_GvGoods extends BaseAdapter {
 
-    private List<Bean_Goods> list;
-
     private List<List<Bean_Goods>> listTotle;
 
     private Context context;
@@ -32,9 +31,9 @@ public class Adapter_GvGoods extends BaseAdapter {
     private ImageLoader imageLoader;
     private DisplayImageOptions options; // 显示图像设置
 
-    public Adapter_GvGoods(Context c, List<Bean_Goods> list) {
+    public Adapter_GvGoods(Context c, List<List<Bean_Goods>> list) {
         this.context = c;
-        this.list = list;
+        this.listTotle = list;
 
         inflater = LayoutInflater.from(c);
         imageLoader = ImageLoader.getInstance();
@@ -49,12 +48,12 @@ public class Adapter_GvGoods extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return list.size();
+        return listTotle.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return list.get(position);
+        return listTotle.get(position);
     }
 
     @Override
@@ -68,12 +67,14 @@ public class Adapter_GvGoods extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.adapter_gvgoods, parent, false);
+            holder.item_ll_left = (LinearLayout) convertView.findViewById(R.id.item_ll_left);
             holder.left_goods_img = (ImageView) convertView.findViewById(R.id.left_goods_img);
             holder.left_goods_title = (TextView) convertView.findViewById(R.id.left_goods_title);
             holder.left_goods_title_more = (TextView) convertView.findViewById(R.id.left_goods_title_more);
             holder.left_goods_praise = (TextView) convertView.findViewById(R.id.left_goods_praise);
             holder.left_goods_update_time = (TextView) convertView.findViewById(R.id.left_goods_update_time);
 
+            holder.item_ll_right = (LinearLayout) convertView.findViewById(R.id.item_ll_right);
             holder.rigth_goods_img = (ImageView) convertView.findViewById(R.id.right_goods_img);
             holder.rigth_goods_title = (TextView) convertView.findViewById(R.id.right_goods_title);
             holder.rigth_goods_title_more = (TextView) convertView.findViewById(R.id.right_goods_title_more);
@@ -84,31 +85,63 @@ public class Adapter_GvGoods extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        if (list == null || list.get(position) == null) {
+        if (listTotle == null || listTotle.get(position) == null) {
             return null;
         }
 
-        Bean_Goods goods = list.get(position);
-        if (TextUtils.isEmpty(goods.getGoods_img())) {
-            holder.left_goods_img.setImageResource(R.drawable.logo);
-        } else {
-            imageLoader.displayImage(goods.getGoods_img(), holder.left_goods_img, options);
+        List<Bean_Goods> listItem = listTotle.get(position);
+
+        if (listItem.size() == 2) {
+            Bean_Goods goodsLeft = listItem.get(0);
+
+            if (TextUtils.isEmpty(goodsLeft.getGoods_img())) {
+                holder.left_goods_img.setImageResource(R.drawable.logo);
+            } else {
+                imageLoader.displayImage(goodsLeft.getGoods_img(), holder.left_goods_img, options);
+            }
+            holder.left_goods_title.setText(goodsLeft.getGoods_title());
+            holder.left_goods_title_more.setText(goodsLeft.getGoods_title_more());
+            holder.left_goods_update_time.setText((TextUtils.isEmpty(goodsLeft.getGoods_update_time()) || ("null".equals(goodsLeft.getGoods_update_time()))) ? "2015年11月11日" : goodsLeft.getGoods_update_time());
+            holder.left_goods_praise.setText(goodsLeft.getGoods_praise());
+
+            Bean_Goods goodsRight = listTotle.get(position).get(1);
+            if (TextUtils.isEmpty(goodsRight.getGoods_img())) {
+                holder.left_goods_img.setImageResource(R.drawable.logo);
+            } else {
+                imageLoader.displayImage(goodsRight.getGoods_img(), holder.rigth_goods_img, options);
+            }
+            holder.rigth_goods_title.setText(goodsRight.getGoods_title());
+            holder.rigth_goods_title_more.setText(goodsRight.getGoods_title_more());
+            holder.rigth_goods_update_time.setText((TextUtils.isEmpty(goodsRight.getGoods_update_time()) || ("null".equals(goodsRight.getGoods_update_time()))) ? "2015年11月11日" : goodsRight.getGoods_update_time());
+            holder.rigth_goods_praise.setText(goodsLeft.getGoods_praise());
+        } else if (listItem.size() == 1) {
+            Bean_Goods goodsLeft = listItem.get(0);
+
+            if (TextUtils.isEmpty(goodsLeft.getGoods_img())) {
+                holder.left_goods_img.setImageResource(R.drawable.logo);
+            } else {
+                imageLoader.displayImage(goodsLeft.getGoods_img(), holder.left_goods_img, options);
+            }
+            holder.left_goods_title.setText(goodsLeft.getGoods_title());
+            holder.left_goods_title_more.setText(goodsLeft.getGoods_title_more());
+            holder.left_goods_update_time.setText((TextUtils.isEmpty(goodsLeft.getGoods_update_time()) || ("null".equals(goodsLeft.getGoods_update_time()))) ? "2015年11月11日" : goodsLeft.getGoods_update_time());
+            holder.left_goods_praise.setText(goodsLeft.getGoods_praise());
+
+            holder.item_ll_right.setVisibility(View.GONE);
         }
-        holder.left_goods_title.setText(goods.getGoods_title());
-        holder.left_goods_title_more.setText(goods.getGoods_title_more());
-        holder.left_goods_update_time.setText((TextUtils.isEmpty(goods.getGoods_update_time()) || ("null".equals(goods.getGoods_update_time()))) ? "2015年11月11日" : goods.getGoods_update_time());
-        holder.left_goods_praise.setText(TextUtils.isEmpty(goods.getGoods_praise()) ? "嘟柚爱车" : goods.getGoods_praise());
 
         return convertView;
     }
 
     private class ViewHolder {
+        public LinearLayout item_ll_left;
         public ImageView left_goods_img;
         public TextView left_goods_title;
         public TextView left_goods_title_more;
         public TextView left_goods_praise;
         public TextView left_goods_update_time;
 
+        public LinearLayout item_ll_right;
         public ImageView rigth_goods_img;
         public TextView rigth_goods_title;
         public TextView rigth_goods_title_more;
