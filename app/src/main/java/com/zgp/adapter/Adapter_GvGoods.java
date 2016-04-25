@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.zgp.application.UrlPath;
 import com.zgp.bean.Bean_Goods;
+import com.zgp.callback.CallBack_ItemButton;
+import com.zgp.utils.MyLogger;
 import com.zgp.zgpapp.R;
 
 import java.util.List;
@@ -24,6 +27,7 @@ import java.util.List;
 public class Adapter_GvGoods extends BaseAdapter {
 
     private List<List<Bean_Goods>> listTotle;
+    private CallBack_ItemButton callBack_itemButton;
 
     private Context context;
     private LayoutInflater inflater;
@@ -31,9 +35,10 @@ public class Adapter_GvGoods extends BaseAdapter {
     private ImageLoader imageLoader;
     private DisplayImageOptions options; // 显示图像设置
 
-    public Adapter_GvGoods(Context c, List<List<Bean_Goods>> list) {
+    public Adapter_GvGoods(Context c, List<List<Bean_Goods>> list, CallBack_ItemButton callBack_itemButton) {
         this.context = c;
         this.listTotle = list;
+        this.callBack_itemButton = callBack_itemButton;
 
         inflater = LayoutInflater.from(c);
         imageLoader = ImageLoader.getInstance();
@@ -62,7 +67,7 @@ public class Adapter_GvGoods extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
@@ -95,9 +100,9 @@ public class Adapter_GvGoods extends BaseAdapter {
             Bean_Goods goodsLeft = listItem.get(0);
 
             if (TextUtils.isEmpty(goodsLeft.getGoods_img())) {
-                holder.left_goods_img.setImageResource(R.drawable.logo);
+                imageLoader.displayImage(UrlPath.IMAGE_URL + goodsLeft.getGoods_img(), holder.left_goods_img, options);
             } else {
-                imageLoader.displayImage(goodsLeft.getGoods_img(), holder.left_goods_img, options);
+                imageLoader.displayImage(UrlPath.IMAGE_URL + goodsLeft.getGoods_img(), holder.left_goods_img, options);
             }
             holder.left_goods_title.setText(goodsLeft.getGoods_title());
             holder.left_goods_title_more.setText(goodsLeft.getGoods_title_more());
@@ -106,7 +111,7 @@ public class Adapter_GvGoods extends BaseAdapter {
 
             Bean_Goods goodsRight = listTotle.get(position).get(1);
             if (TextUtils.isEmpty(goodsRight.getGoods_img())) {
-                holder.left_goods_img.setImageResource(R.drawable.logo);
+                imageLoader.displayImage(goodsRight.getGoods_img(), holder.rigth_goods_img, options);
             } else {
                 imageLoader.displayImage(goodsRight.getGoods_img(), holder.rigth_goods_img, options);
             }
@@ -119,6 +124,7 @@ public class Adapter_GvGoods extends BaseAdapter {
 
             if (TextUtils.isEmpty(goodsLeft.getGoods_img())) {
                 holder.left_goods_img.setImageResource(R.drawable.logo);
+                imageLoader.displayImage(goodsLeft.getGoods_img(), holder.left_goods_img, options);
             } else {
                 imageLoader.displayImage(goodsLeft.getGoods_img(), holder.left_goods_img, options);
             }
@@ -129,6 +135,22 @@ public class Adapter_GvGoods extends BaseAdapter {
 
             holder.item_ll_right.setVisibility(View.GONE);
         }
+
+        holder.item_ll_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyLogger.log("点击了左边");
+                callBack_itemButton.onMeClick(position, 0);
+            }
+        });
+
+        holder.item_ll_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyLogger.log("点击了右边");
+                callBack_itemButton.onMeClick(position, 1);
+            }
+        });
 
         return convertView;
     }

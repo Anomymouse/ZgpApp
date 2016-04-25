@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -22,14 +23,13 @@ import com.zgp.adapter.Adapter_GvGoods;
 import com.zgp.application.UrlPath;
 import com.zgp.bean.Bean_Banner;
 import com.zgp.bean.Bean_Goods;
+import com.zgp.callback.CallBack_ItemButton;
 import com.zgp.http.HttpController;
 import com.zgp.http.IRequestCallBack;
 import com.zgp.utils.MyLogger;
 import com.zgp.utils.Util_System;
 import com.zgp.view.ToastView;
 import com.zgp.zgpapp.R;
-
-import net.tsz.afinal.FinalHttp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,10 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     private ListView listView;
     private Adapter_GvGoods adapterGvGoods;
 
-    private FinalHttp finalHttp;
+    private LinearLayout ll_item_1;
+    private LinearLayout ll_item_2;
+    private LinearLayout ll_item_3;
+    private LinearLayout ll_item_4;
 
     /**
      * 商品相关
@@ -84,11 +87,17 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     };
 
 
+    private CallBack_ItemButton callBack = new CallBack_ItemButton() {
+        @Override
+        public void onMeClick(int position, int x) {
+            Toast("Position:" + position + " X:" + x);
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        finalHttp = new FinalHttp();
         inflater = LayoutInflater.from(getActivity());
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
@@ -121,6 +130,16 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
         vp_banner = (ViewPager) view.findViewById(R.id.vp_banner);
         ll_dot = (LinearLayout) view.findViewById(R.id.ll_dot);
         tv_newsTitle = (TextView) view.findViewById(R.id.tv_news_title);
+
+        ll_item_1 = (LinearLayout) view.findViewById(R.id.ll_item_1);
+        ll_item_2 = (LinearLayout) view.findViewById(R.id.ll_item_2);
+        ll_item_3 = (LinearLayout) view.findViewById(R.id.ll_item_3);
+        ll_item_4 = (LinearLayout) view.findViewById(R.id.ll_item_4);
+
+        ll_item_1.setOnClickListener(this);
+        ll_item_2.setOnClickListener(this);
+        ll_item_3.setOnClickListener(this);
+        ll_item_4.setOnClickListener(this);
     }
 
     public void initData() {
@@ -169,7 +188,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
                         }
                     }
 
-                    adapterGvGoods = new Adapter_GvGoods(getActivity(), goodsTotleList);
+                    adapterGvGoods = new Adapter_GvGoods(getActivity(), goodsTotleList, callBack);
                 } else {
                     goodsTotleList = new ArrayList<List<Bean_Goods>>();
                 }
@@ -188,7 +207,22 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()) {
+            case R.id.ll_item_1:
+                Toast("贴心客服");
+                break;
+            case R.id.ll_item_2:
+                Toast("限时抢购");
+                break;
+            case R.id.ll_item_3:
+                Toast("每日推荐");
+                break;
+            case R.id.ll_item_4:
+                Toast("摇一摇");
+                break;
+            default:
+                break;
+        }
     }
 
     private void Toast(String str) {

@@ -6,8 +6,8 @@ package com.zgp.application;
 public class UrlPath {
 
     //Url 相关
-    public static final String SERVER_URL = "http://192.168.0.112/index.php?r=";
-    public static final String IMAGE_URL = "http://192.168.0.112";
+    public static final String IMAGE_URL = "http://115.28.32.71";
+    public static final String SERVER_URL = IMAGE_URL + "/index.php?r=";
 
     public static final String ControllerName = "/App/";
 
