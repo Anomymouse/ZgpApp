@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -124,7 +123,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     public void initView(View view) {
         listView = (ListView) view.findViewById(R.id.listView);
 
-        LinearLayout hearderViewLayout = (LinearLayout) inflater.inflate(R.layout.headview_lv_frg1, null);
+        LinearLayout hearderViewLayout = (LinearLayout) inflater.inflate(R.layout.lv_headview, null);
         listView.addHeaderView(hearderViewLayout);
 
         vp_banner = (ViewPager) view.findViewById(R.id.vp_banner);
