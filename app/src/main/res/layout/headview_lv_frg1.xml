@@ -14,6 +14,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_30_dip"
+        android:orientation="vertical">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/split_line"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_200_dip"
         android:orientation="horizontal">
 
