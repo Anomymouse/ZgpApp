@@ -10,6 +10,10 @@
     <color name="gray_transparent_35">#59111419</color>
     <color name="white">#FFFFFF</color>
     <color name="white_me">#fff9f9f9</color>
+    <color name="color_goods_item_title">#000000</color>
+    <color name="color_goods_item_deepgray">#868686</color>
+    <color name="color_goods_item_gray">#9F9F9F</color>
+    <color name="color_goods_item_line">#EBEBEB</color>
     <color name="black_me">#FF111419</color>
 
     <color name="text_hint_color">#ff929292</color>

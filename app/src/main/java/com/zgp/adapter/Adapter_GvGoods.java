@@ -23,6 +23,9 @@ import java.util.List;
 public class Adapter_GvGoods extends BaseAdapter {
 
     private List<Bean_Goods> list;
+
+    private List<List<Bean_Goods>> listTotle;
+
     private Context context;
     private LayoutInflater inflater;
 
@@ -65,11 +68,17 @@ public class Adapter_GvGoods extends BaseAdapter {
         if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.adapter_gvgoods, parent, false);
-            holder.goods_img = (ImageView) convertView.findViewById(R.id.goods_img);
-            holder.goods_title = (TextView) convertView.findViewById(R.id.goods_title);
-            holder.goods_title_more = (TextView) convertView.findViewById(R.id.goods_title_more);
-            holder.goods_praise = (TextView) convertView.findViewById(R.id.goods_praise);
-            holder.goods_update_time = (TextView) convertView.findViewById(R.id.goods_update_time);
+            holder.left_goods_img = (ImageView) convertView.findViewById(R.id.left_goods_img);
+            holder.left_goods_title = (TextView) convertView.findViewById(R.id.left_goods_title);
+            holder.left_goods_title_more = (TextView) convertView.findViewById(R.id.left_goods_title_more);
+            holder.left_goods_praise = (TextView) convertView.findViewById(R.id.left_goods_praise);
+            holder.left_goods_update_time = (TextView) convertView.findViewById(R.id.left_goods_update_time);
+
+            holder.rigth_goods_img = (ImageView) convertView.findViewById(R.id.right_goods_img);
+            holder.rigth_goods_title = (TextView) convertView.findViewById(R.id.right_goods_title);
+            holder.rigth_goods_title_more = (TextView) convertView.findViewById(R.id.right_goods_title_more);
+            holder.rigth_goods_praise = (TextView) convertView.findViewById(R.id.right_goods_praise);
+            holder.rigth_goods_update_time = (TextView) convertView.findViewById(R.id.right_goods_update_time);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -78,25 +87,32 @@ public class Adapter_GvGoods extends BaseAdapter {
         if (list == null || list.get(position) == null) {
             return null;
         }
+
         Bean_Goods goods = list.get(position);
         if (TextUtils.isEmpty(goods.getGoods_img())) {
-            holder.goods_img.setImageResource(R.drawable.logo);
+            holder.left_goods_img.setImageResource(R.drawable.logo);
         } else {
-            imageLoader.displayImage(goods.getGoods_img(), holder.goods_img, options);
+            imageLoader.displayImage(goods.getGoods_img(), holder.left_goods_img, options);
         }
-        holder.goods_title.setText(goods.getGoods_title());
-        holder.goods_title_more.setText(goods.getGoods_title_more());
-        holder.goods_update_time.setText((TextUtils.isEmpty(goods.getGoods_update_time()) || ("null".equals(goods.getGoods_update_time()))) ? "2015年11月11日" : goods.getGoods_update_time());
-        holder.goods_praise.setText(TextUtils.isEmpty(goods.getGoods_praise()) ? "嘟柚爱车" : goods.getGoods_praise());
+        holder.left_goods_title.setText(goods.getGoods_title());
+        holder.left_goods_title_more.setText(goods.getGoods_title_more());
+        holder.left_goods_update_time.setText((TextUtils.isEmpty(goods.getGoods_update_time()) || ("null".equals(goods.getGoods_update_time()))) ? "2015年11月11日" : goods.getGoods_update_time());
+        holder.left_goods_praise.setText(TextUtils.isEmpty(goods.getGoods_praise()) ? "嘟柚爱车" : goods.getGoods_praise());
 
         return convertView;
     }
 
     private class ViewHolder {
-        public ImageView goods_img;
-        public TextView goods_title;
-        public TextView goods_title_more;
-        public TextView goods_praise;
-        public TextView goods_update_time;
+        public ImageView left_goods_img;
+        public TextView left_goods_title;
+        public TextView left_goods_title_more;
+        public TextView left_goods_praise;
+        public TextView left_goods_update_time;
+
+        public ImageView rigth_goods_img;
+        public TextView rigth_goods_title;
+        public TextView rigth_goods_title_more;
+        public TextView rigth_goods_praise;
+        public TextView rigth_goods_update_time;
     }
 }
