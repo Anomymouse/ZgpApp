@@ -22,12 +22,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="进口新鲜荔枝"
+            android:textColor="@color/black_me"
+            android:textSize="8sp"
             android:id="@+id/goods_title" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="JINKOU XINXIANLIZHI"
+            android:textColor="@color/black_me"
+            android:textSize="8sp"
             android:id="@+id/goods_title_more" />
 
         <LinearLayout
@@ -45,6 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="888人"
+                android:textSize="8sp"
+                android:textColor="@color/black_me"
                 android:id="@+id/goods_praise" />
 
             <ImageView
@@ -57,6 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2015-12-08"
+                android:textSize="8sp"
+                android:textColor="@color/black_me"
                 android:id="@+id/goods_update_time" />
         </LinearLayout>
     </LinearLayout>

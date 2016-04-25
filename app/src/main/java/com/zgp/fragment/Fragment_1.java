@@ -1,12 +1,10 @@
 package com.zgp.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -46,7 +44,7 @@ import java.util.concurrent.TimeUnit;
 public class Fragment_1 extends BaseFragment implements View.OnClickListener {
 
     private View view;
-    private GridView gridView;
+    private ListView listView;
     private Adapter_GvGoods adapterGvGoods;
 
     private FinalHttp finalHttp;
@@ -116,7 +114,10 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
     }
 
     public void initView(View view) {
-        gridView = (GridView) view.findViewById(R.id.gridView);
+        listView = (ListView) view.findViewById(R.id.listView);
+
+        LinearLayout hearderViewLayout = (LinearLayout) inflater.inflate(R.layout.headview_lv_frg1, null);
+        listView.addHeaderView(hearderViewLayout);
 
         vp_banner = (ViewPager) view.findViewById(R.id.vp_banner);
         ll_dot = (LinearLayout) view.findViewById(R.id.ll_dot);
@@ -154,7 +155,7 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
                 } else {
                     goodsList = new ArrayList<Bean_Goods>();
                 }
-                gridView.setAdapter(adapterGvGoods);
+                listView.setAdapter(adapterGvGoods);
 
                 MyLogger.log("goodsList.size：" + goodsList.size());
             }
