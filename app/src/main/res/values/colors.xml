@@ -8,7 +8,7 @@
 
     <color name="bottom_button_normal_color">#fff9f9f9</color>
     <color name="gray_transparent_35">#59111419</color>
-    <color name="white">#ffffffff</color>
+    <color name="white">#FFFFFF</color>
     <color name="white_me">#fff9f9f9</color>
     <color name="black_me">#FF111419</color>
 
@@ -17,5 +17,6 @@
     <color name="bg_color">#00DDB1</color>
     <color name="gray_transparent_75">#BF111419</color>
     <color name="transparent">#00000000</color>
+    <color name="common_bg">#F7F7F7</color>
 
 </resources>

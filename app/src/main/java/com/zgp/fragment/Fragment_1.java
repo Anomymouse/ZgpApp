@@ -32,6 +32,7 @@ import com.zgp.zgpapp.R;
 
 import net.tsz.afinal.FinalHttp;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -93,9 +94,9 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
         inflater = LayoutInflater.from(getActivity());
 
         imageLoader.init(ImageLoaderConfiguration.createDefault(getActivity()));
-        bannerOptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.logo) // 设置图片下载期间显示的图片
-                .showImageForEmptyUri(R.drawable.logo) // 设置图片Uri为空或是错误的时候显示的图片
-                .showImageOnFail(R.drawable.logo) // 设置图片加载或解码过程中发生错误显示的图片
+        bannerOptions = new DisplayImageOptions.Builder().showImageOnLoading(R.drawable.banner_default) // 设置图片下载期间显示的图片
+                .showImageForEmptyUri(R.drawable.banner_default) // 设置图片Uri为空或是错误的时候显示的图片
+                .showImageOnFail(R.drawable.banner_default) // 设置图片加载或解码过程中发生错误显示的图片
                 .cacheInMemory(true) // 设置下载的图片是否缓存在内存中
                 .cacheOnDisk(true) // 设置下载的图片是否缓存在SD卡中
                 .build(); // 创建配置过得DisplayImageOption对象
@@ -245,6 +246,8 @@ public class Fragment_1 extends BaseFragment implements View.OnClickListener {
                 ((ViewGroup) (mViewList.get(position).getParent())).removeView(mViewList.get(position));
                 ((ViewPager) container).addView(mViewList.get(position));
             }
+
+            //MyLogger.log("图片加载：" + UrlPath.IMAGE_URL + mNewsList.get(position).getImgUrl());
             imageLoader.displayImage(UrlPath.IMAGE_URL + mNewsList.get(position).getImgUrl(), mViewList.get(position), bannerOptions);
             return mViewList.get(position);
         }
